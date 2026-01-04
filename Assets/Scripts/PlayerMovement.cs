@@ -5,15 +5,18 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float jumpSpeed = 15f;
+    [SerializeField] float climbSpeed = 5f;
     Animator animator;
     Vector2 moveInput;
     Rigidbody2D rb;
+    CapsuleCollider2D coll;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        coll = GetComponent<CapsuleCollider2D>();
     }
 
     // Update is called once per frame
@@ -21,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Run();
         FlipSprite();
+        ClimbLadder();
     }
 
     void OnMove(InputValue value)
@@ -30,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value)
     {
-        if(value.isPressed)
+        if(value.isPressed && coll.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             rb.linearVelocity += new Vector2(0f, jumpSpeed);
         }
@@ -49,6 +53,20 @@ public class PlayerMovement : MonoBehaviour
         if(hasHorizontalSpeed)
         {
             transform.localScale = new Vector2(Mathf.Sign(rb.linearVelocity.x), 1f);
+        }
+    }
+
+    void ClimbLadder()
+    {
+        bool isTouchingLadder = coll.IsTouchingLayers(LayerMask.GetMask("Climbing"));
+        if(isTouchingLadder)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, moveInput.y * climbSpeed);
+            rb.gravityScale = 0f;
+        }
+        else
+        {
+            rb.gravityScale = 5f;
         }
     }
 }
