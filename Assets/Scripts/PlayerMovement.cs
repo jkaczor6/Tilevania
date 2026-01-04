@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     Vector2 moveInput;
     Rigidbody2D rb;
     CapsuleCollider2D coll;
+    float originalGravity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         coll = GetComponent<CapsuleCollider2D>();
+        originalGravity = rb.gravityScale;
     }
 
     // Update is called once per frame
@@ -63,10 +66,12 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, moveInput.y * climbSpeed);
             rb.gravityScale = 0f;
+            animator.SetBool("isClimbing", Mathf.Abs(rb.linearVelocity.y) > Mathf.Epsilon);
         }
         else
         {
-            rb.gravityScale = 5f;
+            rb.gravityScale = originalGravity;
+            animator.SetBool("isClimbing", false);
         }
     }
 }
