@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
     void ClimbLadder()
     {
-        bool isTouchingLadder = coll.IsTouchingLayers(LayerMask.GetMask("Climbing"));
+        bool isTouchingLadder = Ccoll.IsTouchingLayers(LayerMask.GetMask("Climbing"));
         if(isTouchingLadder)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, moveInput.y * climbSpeed);
