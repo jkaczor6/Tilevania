@@ -10,7 +10,8 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
     Vector2 moveInput;
     Rigidbody2D rb;
-    CapsuleCollider2D coll;
+    BoxCollider2D Bcoll;
+    CapsuleCollider2D Ccoll;
     float originalGravity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,7 +19,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        coll = GetComponent<CapsuleCollider2D>();
+        Bcoll = GetComponent<BoxCollider2D>();
+        Ccoll = GetComponent<CapsuleCollider2D>();
         originalGravity = rb.gravityScale;
     }
 
@@ -37,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value)
     {
-        if(value.isPressed && coll.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        if(value.isPressed && Bcoll.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             rb.linearVelocity += new Vector2(0f, jumpSpeed);
         }
