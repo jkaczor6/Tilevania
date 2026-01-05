@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     CapsuleCollider2D Ccoll;
     float originalGravity;
 
+    bool isAlive = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,13 +29,16 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!isAlive) { return; }
         Run();
         FlipSprite();
         ClimbLadder();
+        Die();
     }
 
     void OnMove(InputValue value)
     {
+        if(!isAlive) { return; }
         moveInput = value.Get<Vector2>();
     }
 
@@ -74,6 +79,14 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.gravityScale = originalGravity;
             animator.SetBool("isClimbing", false);
+        }
+    }
+
+    void Die()
+    {
+        if(Bcoll.IsTouchingLayers(LayerMask.GetMask("Enemies", "Hazards")))
+        {
+            isAlive = false;
         }
     }
 }
