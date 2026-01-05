@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 15f;
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] float deathKick = 10f;
+    [SerializeField] GameObject bullet;
+    [SerializeField] GameObject gun;
     Animator animator;
     Vector2 moveInput;
     Rigidbody2D rb;
@@ -48,6 +50,14 @@ public class PlayerMovement : MonoBehaviour
         if(value.isPressed && Bcoll.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             rb.linearVelocity += new Vector2(0f, jumpSpeed);
+        }
+    }
+
+    void OnAttack(InputValue value)
+    {
+        if(value.isPressed && isAlive)
+        {
+            Instantiate(bullet, gun.transform.position, transform.rotation);
         }
     }
 
