@@ -17,10 +17,12 @@ public class LevelLoader : MonoBehaviour
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if(sceneIndex < SceneManager.sceneCountInBuildSettings - 1)
         {
+            FindAnyObjectByType<ScenePersist>().ResetScenePersist();
             SceneManager.LoadScene(sceneIndex + 1);
         }
         else
         {
+            FindAnyObjectByType<ScenePersist>().ResetScenePersist();
             SceneManager.LoadScene(0);
         }
     }
