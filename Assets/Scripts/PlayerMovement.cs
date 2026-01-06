@@ -100,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
             isAlive = false;
             animator.SetTrigger("Dying");
             rb.linearVelocity = new Vector2(-(transform.localScale.x * deathKick), jumpSpeed);
+            FindAnyObjectByType<GameSession>().ProcessPlayerDeath();
         }
     }
 }
