@@ -3,6 +3,7 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     [SerializeField] AudioClip coinPickupSound;
+    [SerializeField] int pointsValue = 100;
     bool wasCollected = false;
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -12,6 +13,7 @@ public class Coin : MonoBehaviour
             Destroy(gameObject);
             gameObject.SetActive(false);
             AudioSource.PlayClipAtPoint(coinPickupSound, transform.position);
+            FindAnyObjectByType<GameSession>().AddToScore(pointsValue);
         }
     }
 }
